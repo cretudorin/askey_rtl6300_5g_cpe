@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Attach Remote",
+      "type": "python",
+      "request": "attach",
+      "host": "localhost",
+      "port": 5678,
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}/custom_components",  
+          "remoteRoot": "/config/custom_components"              
+        }
+      ],
+       "justMyCode": false
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+send_sms:
+  name: Send SMS
+  description: Sends an SMS via the ASKEY router.
+  fields:
+    phone_number:
+      name: Phone Number
+      description: The recipient's phone number (e.g., "+49123456789").
+      required: true
+      example: "+49123456789"
+      selector:
+        text:
+    message:
+      name: Message
+      description: The SMS message body.
+      required: true
+      example: "Hello from Home Assistant!"
+      selector:
+        text:
+
+get_inbox:
+  name: Get all SMS from inbox
+
+clear_inbox:
+  name: Clear SMS Inbox
+
+# in 2.0 maybe
+# get_outbox:
+#   name: Get all SMS from inbox
+
+clear_outbox:
+  name: Clear SMS Inbox

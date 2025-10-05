@@ -1,0 +1,10 @@
+{
+    "name": "ASKEY RTL6300 5G CPE",
+    "content_in_root": false,
+    "domains": ["sensor"],
+    "homeassistant": "2025.0.0",
+    "zip_release": false,
+    "release_strategy": "semantic",
+    "persistent_directory": "custom_components/askey_rtl6300_5g_cpe"
+}
+  
