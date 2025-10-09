@@ -22,6 +22,18 @@ def map_connect_status(connect_status: str):
     return status_map.get(connect_status, "Unknown")
 
 
+def get_cellular_info_ex(cellular_info_ex):
+    """
+    When SCC1 is connected the return of the http call is an array.
+    Otherwise when there is only PCC, return is an object
+
+    """
+    if "data" in cellular_info_ex:
+        return cellular_info_ex[0]
+    else:
+        return cellular_info_ex
+
+
 class AskeyUtils:
     def __init__(self, hass: HomeAssistant, config_entry: ConfigEntry):
         self.hass = hass

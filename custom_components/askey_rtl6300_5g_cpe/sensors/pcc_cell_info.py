@@ -1,4 +1,5 @@
 from .base_sensor import AskeyBaseSensorDiagnostic
+from ..utils import get_cellular_info_ex
 
 
 class AskeyPccPciSensor(AskeyBaseSensorDiagnostic):
@@ -13,7 +14,9 @@ class AskeyPccPciSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return self.coordinator.data["cellular_info_ex"]["data"][0]["pci"]
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["pci"]
+            )
         except (KeyError, IndexError, TypeError):
             return None
 
@@ -39,7 +42,9 @@ class AskeyPccRssiSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return float(self.coordinator.data["cellular_info_ex"]["data"][0]["rssi"])
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["rssi"]
+            )
         except (KeyError, IndexError, TypeError, ValueError):
             return None
 
@@ -65,7 +70,9 @@ class AskeyPccRsrpSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return float(self.coordinator.data["cellular_info_ex"]["data"][0]["rsrp"])
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["rsrp"]
+            )
         except (KeyError, IndexError, TypeError, ValueError):
             return None
 
@@ -91,7 +98,9 @@ class AskeyPccRsrqSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return float(self.coordinator.data["cellular_info_ex"]["data"][0]["rsrq"])
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["rsrq"]
+            )
         except (KeyError, IndexError, TypeError, ValueError):
             return None
 
@@ -117,7 +126,9 @@ class AskeyPccSinrSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return float(self.coordinator.data["cellular_info_ex"]["data"][0]["sinr"])
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["sinr"]
+            )
         except (KeyError, IndexError, TypeError, ValueError):
             return None
 
@@ -143,7 +154,9 @@ class AskeyPccBandSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return self.coordinator.data["cellular_info_ex"]["data"][0]["band"]
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["band"]
+            )
         except (KeyError, IndexError, TypeError):
             return None
 
@@ -171,7 +184,9 @@ class AskeyPccBandwSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return float(self.coordinator.data["cellular_info_ex"]["data"][0]["bandw"])
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["bandw"]
+            )
         except (KeyError, IndexError, TypeError, ValueError):
             return None
 
@@ -198,7 +213,9 @@ class AskeyPccRxchSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return self.coordinator.data["cellular_info_ex"]["data"][0]["rxch"]
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["rxch"]
+            )
         except (KeyError, IndexError, TypeError):
             return None
 
@@ -225,7 +242,9 @@ class AskeyPccTxchSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return self.coordinator.data["cellular_info_ex"]["data"][0]["txch"]
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])["txch"]
+            )
         except (KeyError, IndexError, TypeError):
             return None
 
@@ -253,7 +272,11 @@ class AskeyPccRxfreqSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return float(self.coordinator.data["cellular_info_ex"]["data"][0]["rxfreq"])
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])[
+                    "rxfreq"
+                ]
+            )
         except (KeyError, IndexError, TypeError, ValueError):
             return None
 
@@ -284,7 +307,11 @@ class AskeyPccTxfreqSensor(AskeyBaseSensorDiagnostic):
     @property
     def native_value(self):
         try:
-            return float(self.coordinator.data["cellular_info_ex"]["data"][0]["txfreq"])
+            return float(
+                get_cellular_info_ex(self.coordinator.data["cellular_info_ex"])[
+                    "txfreq"
+                ]
+            )
         except (KeyError, IndexError, TypeError, ValueError):
             return None
 

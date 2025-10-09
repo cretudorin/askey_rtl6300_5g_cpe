@@ -44,8 +44,8 @@ Here’s the revised markdown table without the values, organized by category:
 | **Traffic**          | Current Download              | Current download data volume.                                                  |
 |                      | Current Upload                | Current upload data volume.                                                    |
 |                      | Last Traffic Update           | Timestamp of the last traffic data update.                                    |
-|                      | Monthly RX                    | Total received data for the month.                                             |
-|                      | Monthly TX                    | Total transmitted data for the month.                                          |
+|                      | Monthly Download              | Total received data for the month.                                             |
+|                      | Monthly Upload                | Total transmitted data for the month.                                          |
 |                      | Monthly Total                 | Total combined data usage for the month.                                       |
 | **SMS**              | SMS Inbox Count               | Number of unread messages in the inbox.                                         |
 |                      | SMS Outbox Count              | Number of messages in the outbox.                                               |

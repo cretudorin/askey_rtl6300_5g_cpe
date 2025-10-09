@@ -61,7 +61,11 @@ class AskeyDataUpdateCoordinator(DataUpdateCoordinator):
     async def get_status_info_v6(self):
         return await self.utils.get("/CMGR/v6_status_info")
 
+    # when SCC1 is connected
     # {"Status":"ok","ModuleCommand":"/lte/cellular_info_ex","Result":{"data":[{"pci":"XXX","rssi":"-XX.XX","rsrp":"-XX.XX","rsrq":"-X.XX","sinr":"XX.X","band":"X","bandw":"XX.XXXXXX","rxch":"XXX","txch":"XXXXX","rxfreq":"XXXX.XX","txfreq":"XXXX.XX"},{"pci":"XXX","rssi":"-XX.XX","rsrp":"-XX.XX","rsrq":"-X.XX","sinr":"XX.X","band":"XX","bandw":"XX.XXXXXX","rxch":"XXXX","txch":"XXXXX","rxfreq":"XXX.X","txfreq":"XXX.X"}]}}
+
+    # without SCC1
+    # {"Status":"ok","ModuleCommand":"/lte/cellular_info_ex","Result":{"pci":"446","rssi":"-53.400000","rsrp":"-83.600000","rsrq":"-9.000000","sinr":"13.6","band":"1","bandw":"20.000000","rxch":"300","txch":"18300","rxfreq":"2140.00","txfreq":"1950.00"}}
     async def get_cellular_info_ex(self):
         return await self.utils.get("/lte/cellular_info_ex")
 
