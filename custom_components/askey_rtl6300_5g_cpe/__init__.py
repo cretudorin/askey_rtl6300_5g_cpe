@@ -69,4 +69,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         service_func=utils.handle_clear_outbox,
     )
 
+    # Forward the setup to the button platform
+    await hass.config_entries.async_forward_entry_setups(entry, ["button"])
+
     return True

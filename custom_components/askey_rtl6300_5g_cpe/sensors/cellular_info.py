@@ -21,7 +21,7 @@ class AskeyPccTypeSensor(AskeyBaseSensor):
     def native_value(self):
         try:
             return self.coordinator.data["cellular_info"]["type"]
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             return None
 
     @property
@@ -41,7 +41,7 @@ class AskeyPccGciSensor(AskeyBaseSensorDiagnostic):
     def native_value(self):
         try:
             return self.coordinator.data["cellular_info"]["gci"]
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             return None
 
     @property
@@ -61,7 +61,7 @@ class AskeyPccMccSensor(AskeyBaseSensorDiagnostic):
     def native_value(self):
         try:
             return self.coordinator.data["cellular_info"]["mcc"]
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             return None
 
     @property
@@ -81,7 +81,7 @@ class AskeyPccMncSensor(AskeyBaseSensorDiagnostic):
     def native_value(self):
         try:
             return self.coordinator.data["cellular_info"]["mnc"]
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             return None
 
     @property
@@ -101,7 +101,7 @@ class AskeyPccTacSensor(AskeyBaseSensorDiagnostic):
     def native_value(self):
         try:
             return self.coordinator.data["cellular_info"]["tac"]
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             return None
 
     @property
@@ -121,7 +121,7 @@ class AskeyPccEnbSensor(AskeyBaseSensorDiagnostic):
     def native_value(self):
         try:
             return self.coordinator.data["cellular_info"]["enb"]
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             return None
 
     @property
@@ -148,7 +148,7 @@ class AskeyPccServTimeSensor(AskeyBaseSensor):
     def native_value(self):
         try:
             return self.coordinator.data["cellular_info"]["serv_time"]
-        except (KeyError, TypeError):
+        except (KeyError, TypeError, AttributeError):
             return None
 
     @property

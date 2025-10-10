@@ -119,7 +119,7 @@ actions:
 - Select what you see on creation
 - pin managment / change pin
 
-## Discovered endpoints
+## Readonly endpoints
 | URL                                                | Method | Description                                                 |   
 |----------------------------------------------------|--------|-------------------------------------------------------------|
 | IP                                                 |        |                                                             | 
@@ -144,3 +144,25 @@ actions:
 | http://172.20.168.1/restful/traffic/monthly        | GET    | monthly data usage                                          |
 | http://172.20.168.1/restful/lte/cellular_info_ca   | GET    | carrier aggregation info                                    |
 | http://172.20.168.1/restful/tr069/other_info       | POST   | fake "TR‑069"                                               |
+
+
+## Control endpoints
+
+| Control                   | URL                                                  | Method | Payload                                                                                     |
+|---------------------------|-------------------------------------------------------|-----|-----------------------------------------------------------------------------------------------|
+| Reconnect LTE             | http://172.20.168.1/restful/lte/control               | PUT | `{"command": "2", "ifname": "rmnet_data0"}`                                                   | 
+| Disconnect LTE            | http://172.20.168.1/restful/lte/control               | PUT | `{"command": "1", "ifname": "rmnet_data0"}`                                                   | 
+| Connect LTE               | http://172.20.168.1/restful/lte/control               | PUT | `{"command": "0", "ifname": "rmnet_data0"}`                                                   | 
+| Get APN Settings          | http://172.20.168.1/restful/lte/apn                   | GET | None                                                                                          | 
+| Set APN Settings          | http://172.20.168.1/restful/lte/apn                   | PUT | `{"auto": "0", "name": "", "user": "", "pwd": "", "auth": "", "pdn": ""}`                     |
+| Get Roaming Settings      | http://172.20.168.1/restful/lte/roaming               | GET | None                                                                                          | 
+| Set Roaming Settings      | http://172.20.168.1/restful/lte/roaming               | PUT | `{"enable": "1"}`                                                                             | 
+| Get Airplane Mode         | http://172.20.168.1/restful/lte/airplane_mode         | GET | None                                                                                          | 
+| Set Airplane Mode         | http://172.20.168.1/restful/lte/airplane_mode         | PUT | `{"enable": "1"}`                                                                             | 
+| Change SIM PIN            | http://172.20.168.1/restful/lte/sim_change_pin        | PUT | `{"old_pin_code": "old_pin", "new_pin_code": "new_pin"}`                                      | 
+| Lock SIM PIN              | http://172.20.168.1/restful/lte/sim_pin_lock          | PUT | `{"enable": "1", "pin_code": "your_pin"}`                                                     | 
+| Unlock SIM PIN            | http://172.20.168.1/restful/lte/sim_unlock_pin        | PUT | `{"pin_code": "your_pin"}`                                                                    | 
+| Unlock SIM PUK            | http://172.20.168.1/restful/lte/sim_unlock_puk        | PUT | `{"new_pin_code": "new_pin", "puk_code": "your_puk"}`                                         | 
+| Get SIM PIN Left Attempts | http://172.20.168.1/restful/lte/sim_pin_left          | GET | None                                                                                          | 
+| Get Supported PDN Types   | http://172.20.168.1/restful/CMGR/list_support_v4_info | GET | None                                                                                          | 
+| Reboot device             | http://172.20.168.1/restful/sysadm/reboot             | PUT |  `{ "option": "1"}`                                                                           |

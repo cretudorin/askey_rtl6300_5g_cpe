@@ -89,6 +89,14 @@ class AskeyDataUpdateCoordinator(DataUpdateCoordinator):
     async def get_traffic_monthly(self):
         return await self.utils.get("/traffic/monthly")
 
+    async def handle_restart(self):
+        return await self.utils.put("/sysadm/reboot", {"option": "1"})
+
+    async def handle_reconnect(self):
+        return await self.utils.put(
+            "/lte/control", {"command": "2", "ifname": "rmnet_data0"}
+        )
+
     async def async_request_data(self):
         """Manually trigger data update."""
         return await self.async_refresh()

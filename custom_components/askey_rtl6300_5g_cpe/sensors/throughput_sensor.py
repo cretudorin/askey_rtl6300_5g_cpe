@@ -31,7 +31,7 @@ class AskeyThroughputDownloadSensor(AskeyBaseSensorDiagnostic):
             try:
                 return round(float(data["throughput"].get("down")) / 1_048_576, 2)
 
-            except (KeyError, IndexError, TypeError, ValueError):
+            except (KeyError, IndexError, TypeError, ValueError, AttributeError):
                 _LOGGER.error(
                     f"Invalid download throughput value in: %s", data["throughput"]
                 )
@@ -69,7 +69,7 @@ class AskeyThroughputUploadSensor(AskeyBaseSensorDiagnostic):
             try:
                 return round(float(data["throughput"].get("up")) / 1_048_576, 2)
 
-            except (KeyError, IndexError, TypeError, ValueError):
+            except (KeyError, IndexError, TypeError, ValueError, AttributeError):
                 _LOGGER.error(
                     f"Invalid upload throughput value in: %s", data["throughput"]
                 )
