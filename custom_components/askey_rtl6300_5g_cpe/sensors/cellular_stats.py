@@ -5,7 +5,7 @@ from homeassistant.const import UnitOfInformation
 class AskeyTxBytesSensor(AskeyBaseSensor):
     """
     Tracks the amount of data transmitted (TX) since the last restart.
-    Data is received in bytes and converted to MiB or GiB depending on size.
+    Data is received in bytes and converted to GiB.
     """
 
     def __init__(self, coordinator):
@@ -15,7 +15,7 @@ class AskeyTxBytesSensor(AskeyBaseSensor):
             "askey_tx",
             "mdi:upload",
             "tx_bytes",
-            UnitOfInformation.MEBIBYTES,
+            UnitOfInformation.GIBIBYTES,
         )
 
     @property
@@ -26,36 +26,16 @@ class AskeyTxBytesSensor(AskeyBaseSensor):
                 if raw is None:
                     return 0
                 mib = int(raw) / 1_048_576
-                # show GiB when > 1000 MiB
-                if mib > 1000:
-                    return round(mib / 1024, 2)
-                return round(mib, 2)
+                return round(mib / 1024, 2)
             return 0
         except (TypeError, ValueError):
             return 0
-
-    @property
-    def native_unit_of_measurement(self):
-        try:
-            if self.coordinator.data:
-                raw = self.coordinator.data.get("cellular_stats", {}).get("tx_bytes")
-                if raw is None:
-                    return UnitOfInformation.MEBIBYTES
-                mib = int(raw) / 1_048_576
-                return (
-                    UnitOfInformation.GIBIBYTES
-                    if mib > 1000
-                    else UnitOfInformation.MEBIBYTES
-                )
-            return UnitOfInformation.MEBIBYTES
-        except (TypeError, ValueError):
-            return UnitOfInformation.MEBIBYTES
 
     @property
     def extra_state_attributes(self):
         return {
             "Description": "Tracks the amount of data transmitted (TX) since the last restart.",
-            "Unit": "MiB or GiB depending on value",
+            "Unit": "GiB",
         }
 
 
@@ -72,7 +52,7 @@ class AskeyRxBytesSensor(AskeyBaseSensor):
             "askey_rx",
             "mdi:download",
             "rx_bytes",
-            UnitOfInformation.MEBIBYTES,
+            UnitOfInformation.GIBIBYTES,
         )
 
     @property
@@ -83,36 +63,16 @@ class AskeyRxBytesSensor(AskeyBaseSensor):
                 if raw is None:
                     return 0
                 mib = int(raw) / 1_048_576
-                # show GiB when > 1000 MiB
-                if mib > 1000:
-                    return round(mib / 1024, 2)
-                return round(mib, 2)
+                return round(mib / 1024, 2)
             return 0
         except (TypeError, ValueError):
             return 0
-
-    @property
-    def native_unit_of_measurement(self):
-        try:
-            if self.coordinator.data:
-                raw = self.coordinator.data.get("cellular_stats", {}).get("rx_bytes")
-                if raw is None:
-                    return UnitOfInformation.MEBIBYTES
-                mib = int(raw) / 1_048_576
-                return (
-                    UnitOfInformation.GIBIBYTES
-                    if mib > 1000
-                    else UnitOfInformation.MEBIBYTES
-                )
-            return UnitOfInformation.MEBIBYTES
-        except (TypeError, ValueError):
-            return UnitOfInformation.MEBIBYTES
 
     @property
     def extra_state_attributes(self):
         return {
             "Description": "Tracks the amount of data received (RX) since the last restart.",
-            "Unit": "MiB or GiB depending on value",
+            "Unit": "GiB",
         }
 
 

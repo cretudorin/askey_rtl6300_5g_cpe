@@ -10,7 +10,7 @@ class AskeyMonthlyRxSensor(AskeyBaseSensor):
     def __init__(self, coordinator):
         super().__init__(
             coordinator,
-            "Monthly RX",
+            "Monthly Download",
             "askey_monthly_rx",
             "mdi:download",
             "rx",
@@ -41,7 +41,7 @@ class AskeyMonthlyTxSensor(AskeyBaseSensor):
     def __init__(self, coordinator):
         super().__init__(
             coordinator,
-            "Monthly TX",
+            "Monthly Upload",
             "askey_monthly_tx",
             "mdi:upload",
             "tx",
