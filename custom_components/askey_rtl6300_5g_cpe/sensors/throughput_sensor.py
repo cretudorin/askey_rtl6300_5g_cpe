@@ -28,14 +28,14 @@ class AskeyThroughputDownloadSensor(AskeyBaseSensorDiagnostic):
     def native_value(self):
         data = self.coordinator.data
         if data and "throughput" in data:
-            download_bps = data["throughput"].get("down")
-            if download_bps is not None:
-                try:
-                    return round(float(download_bps) / 1_048_576, 2)
-                except ValueError:
-                    _LOGGER.error(
-                        f"Invalid download throughput value: %s", download_bps
-                    )
+            try:
+                return round(float(data["throughput"].get("down")) / 1_048_576, 2)
+
+            except (KeyError, IndexError, TypeError, ValueError):
+                _LOGGER.error(
+                    f"Invalid download throughput value in: %s", data["throughput"]
+                )
+                return
         return None
 
     @property
@@ -66,12 +66,15 @@ class AskeyThroughputUploadSensor(AskeyBaseSensorDiagnostic):
     def native_value(self):
         data = self.coordinator.data
         if data and "throughput" in data:
-            upload_bps = data["throughput"].get("up")
-            if upload_bps is not None:
-                try:
-                    return round(float(upload_bps) / 1_048_576, 2)
-                except ValueError:
-                    _LOGGER.error(f"Invalid upload throughput value: %s", upload_bps)
+            try:
+                return round(float(data["throughput"].get("up")) / 1_048_576, 2)
+
+            except (KeyError, IndexError, TypeError, ValueError):
+                _LOGGER.error(
+                    f"Invalid upload throughput value in: %s", data["throughput"]
+                )
+                return
+
         return None
 
     @property

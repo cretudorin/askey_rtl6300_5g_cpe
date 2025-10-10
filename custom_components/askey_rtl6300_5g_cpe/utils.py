@@ -29,7 +29,7 @@ def get_cellular_info_ex(cellular_info_ex):
 
     """
     if "data" in cellular_info_ex:
-        return cellular_info_ex[0]
+        return cellular_info_ex["data"][0]
     else:
         return cellular_info_ex
 
