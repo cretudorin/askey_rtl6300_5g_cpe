@@ -1,5 +1,8 @@
-from .base_sensor import AskeyBaseSensorDiagnostic, AskeyBaseSensor
 from datetime import timedelta
+from custom_components.askey_rtl6300_5g_cpe.utils import (
+    safe_get_property,
+)
+from .base_sensor import AskeyBaseSensorDiagnostic, AskeyBaseSensor
 from homeassistant.const import UnitOfTime
 
 
@@ -19,10 +22,7 @@ class AskeyPccTypeSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["cellular_info"]["type"]
-        except (KeyError, TypeError, AttributeError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "type"])
 
     @property
     def extra_state_attributes(self):
@@ -39,10 +39,7 @@ class AskeyPccGciSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["cellular_info"]["gci"]
-        except (KeyError, TypeError, AttributeError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "gci"])
 
     @property
     def extra_state_attributes(self):
@@ -59,10 +56,7 @@ class AskeyPccMccSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["cellular_info"]["mcc"]
-        except (KeyError, TypeError, AttributeError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "mcc"])
 
     @property
     def extra_state_attributes(self):
@@ -79,10 +73,7 @@ class AskeyPccMncSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["cellular_info"]["mnc"]
-        except (KeyError, TypeError, AttributeError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "mnc"])
 
     @property
     def extra_state_attributes(self):
@@ -99,10 +90,7 @@ class AskeyPccTacSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["cellular_info"]["tac"]
-        except (KeyError, TypeError, AttributeError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "tac"])
 
     @property
     def extra_state_attributes(self):
@@ -119,10 +107,7 @@ class AskeyPccEnbSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["cellular_info"]["enb"]
-        except (KeyError, TypeError, AttributeError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "enb"])
 
     @property
     def extra_state_attributes(self):
@@ -146,20 +131,21 @@ class AskeyPccServTimeSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["cellular_info"]["serv_time"]
-        except (KeyError, TypeError, AttributeError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "serv_time"])
 
     @property
     def extra_state_attributes(self):
         try:
-            serv_time_seconds = int(self.coordinator.data["cellular_info"]["serv_time"])
-            serv_time_str = str(timedelta(seconds=serv_time_seconds))
             return {
                 "Description": "Serving time in HH:MM:SS format.",
                 "Unit": "HH:MM:SS",
-                "time": serv_time_str,
+                "time": str(
+                    timedelta(
+                        seconds=safe_get_property(
+                            self.coordinator.data, ["cellular_info", "serv_time"], int
+                        )
+                    )
+                ),
             }
         except (KeyError, TypeError, ValueError):
             return {
@@ -179,10 +165,7 @@ class AskeyPccCqiSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            return int(self.coordinator.data["cellular_info"]["cqi"])
-        except (KeyError, TypeError, ValueError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "cqi"])
 
     @property
     def extra_state_attributes(self):
@@ -201,10 +184,7 @@ class AskeyPccCountSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            return int(self.coordinator.data["cellular_info"]["count"])
-        except (KeyError, TypeError, ValueError):
-            return None
+        return safe_get_property(self.coordinator.data, ["cellular_info", "count"])
 
     @property
     def extra_state_attributes(self):

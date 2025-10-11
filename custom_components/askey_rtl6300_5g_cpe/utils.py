@@ -1,3 +1,4 @@
+import traceback
 import aiohttp
 import json
 import logging
@@ -20,6 +21,60 @@ def map_connect_status(connect_status: str):
         "3": "Disconnected",
     }
     return status_map.get(connect_status, "Unknown")
+
+
+def bytes_to_gib(raw):
+    try:
+        return round(int(raw or 0) / 1_048_576 / 1024, 2)
+    except (ValueError, TypeError):
+        return 0.0
+
+
+def bytes_to_mib(raw):
+    try:
+        return round(int(raw or 0) / 1_048_576, 2)
+    except (ValueError, TypeError):
+        return 0.0
+
+
+def safe_get_property(data, keys, mapper=None):
+
+    if not keys:
+        if mapper:
+            try:
+                return mapper(data)
+            except Exception as e:
+                _LOGGER.error(f"Unexpected error: {e}\n{traceback.format_exc()}")
+                return None
+        return data
+
+    current_key = keys[0]
+
+    try:
+        if isinstance(data, dict):
+            if current_key in data:
+                return safe_get_property(data[current_key], keys[1:], mapper)
+            else:
+                _LOGGER.error(
+                    f"Key not found: '{current_key}'\n{traceback.format_stack()}"
+                )
+                return None
+        elif isinstance(data, list):
+            if isinstance(current_key, int) and 0 <= current_key < len(data):
+                return safe_get_property(data[current_key], keys[1:], mapper)
+            else:
+                _LOGGER.error(
+                    f"Index out of range or not an integer: '{current_key}'\n{traceback.format_stack()}"
+                )
+                return None
+        else:
+            _LOGGER.error(
+                f"Cannot traverse into non-dict/list with key: '{current_key}'\n{traceback.format_stack()}"
+            )
+            return None
+    except Exception as e:
+        _LOGGER.error(f"Unexpected error: {e}\n{traceback.format_exc()}")
+        return None
 
 
 def get_cellular_info_ex(cellular_info_ex):

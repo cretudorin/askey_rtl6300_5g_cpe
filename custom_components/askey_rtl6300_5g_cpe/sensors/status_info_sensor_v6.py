@@ -1,6 +1,5 @@
-from ..utils import map_connect_status
+from ..utils import map_connect_status, safe_get_property
 from .base_sensor import AskeyBaseSensor
-from ..const import DOMAIN
 from .base_sensor import AskeyBaseSensorDiagnostic
 
 
@@ -69,12 +68,7 @@ class AskeyConnectivityIpSensorV6(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and "status_info_v6" in data:
-            ip = data["status_info_v6"].get("ip")
-            if ip:
-                return ip
-        return None
+        return safe_get_property(self.coordinator.data, ["status_info_v6", "ip"])
 
     @property
     def state(self):
@@ -105,12 +99,7 @@ class AskeyConnectivityGatewaySensorV6(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and "status_info_v6" in data:
-            gateway = data["status_info_v6"].get("gateway")
-            if gateway:
-                return gateway
-        return None
+        return safe_get_property(self.coordinator.data, ["status_info_v6", "gateway"])
 
     @property
     def state(self):
@@ -141,12 +130,9 @@ class AskeyConnectivityPrimaryDNSSensorV6(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and "status_info_v6" in data:
-            dns = data["status_info_v6"].get("primary_dns")
-            if dns:
-                return dns
-        return None
+        return safe_get_property(
+            self.coordinator.data, ["status_info_v6", "primary_dns"]
+        )
 
     @property
     def extra_state_attributes(self):
@@ -173,12 +159,9 @@ class AskeyConnectivitySecondaryDNSSensorV6(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and "status_info_v6" in data:
-            dns = data["status_info_v6"].get("secondary_dns")
-            if dns:
-                return dns
-        return None
+        return safe_get_property(
+            self.coordinator.data, ["status_info_v6", "secondary_dns"]
+        )
 
     @property
     def extra_state_attributes(self):

@@ -1,3 +1,4 @@
+from custom_components.askey_rtl6300_5g_cpe.utils import safe_get_property
 from .base_sensor import AskeyBaseSensor
 import logging
 
@@ -21,10 +22,9 @@ class AskeySmsInboxCountSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and data["sms_inbox_count"]:
-            return data["sms_inbox_count"].get("totalcount")
-        return 0
+        return safe_get_property(
+            self.coordinator.data, ["sms_inbox_count", "totalcount"]
+        )
 
     @property
     def extra_state_attributes(self):
@@ -51,10 +51,9 @@ class AskeySmsOutboxCountSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and data["sms_outbox_count"]:
-            return data["sms_outbox_count"].get("totalcount")
-        return 0
+        return safe_get_property(
+            self.coordinator.data, ["sms_outbox_count", "totalcount"]
+        )
 
     @property
     def extra_state_attributes(self):

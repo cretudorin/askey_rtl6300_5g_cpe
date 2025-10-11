@@ -1,7 +1,8 @@
 import logging
 
+from custom_components.askey_rtl6300_5g_cpe.utils import bytes_to_mib, safe_get_property
+
 from .base_sensor import AskeyBaseSensorDiagnostic
-from ..const import DOMAIN
 from homeassistant.const import UnitOfInformation
 
 
@@ -26,17 +27,11 @@ class AskeyThroughputDownloadSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and "throughput" in data:
-            try:
-                return round(float(data["throughput"].get("down")) / 1_048_576, 2)
-
-            except (KeyError, IndexError, TypeError, ValueError, AttributeError):
-                _LOGGER.error(
-                    f"Invalid download throughput value in: %s", data["throughput"]
-                )
-                return
-        return None
+        return safe_get_property(
+            self.coordinator.data,
+            ["throughput", "down"],
+            bytes_to_mib,
+        )
 
     @property
     def extra_state_attributes(self):
@@ -64,18 +59,11 @@ class AskeyThroughputUploadSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        data = self.coordinator.data
-        if data and "throughput" in data:
-            try:
-                return round(float(data["throughput"].get("up")) / 1_048_576, 2)
-
-            except (KeyError, IndexError, TypeError, ValueError, AttributeError):
-                _LOGGER.error(
-                    f"Invalid upload throughput value in: %s", data["throughput"]
-                )
-                return
-
-        return None
+        return safe_get_property(
+            self.coordinator.data,
+            ["throughput", "up"],
+            bytes_to_mib,
+        )
 
     @property
     def extra_state_attributes(self):

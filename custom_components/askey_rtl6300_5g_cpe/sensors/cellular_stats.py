@@ -1,3 +1,7 @@
+from custom_components.askey_rtl6300_5g_cpe.utils import (
+    bytes_to_gib,
+    safe_get_property,
+)
 from .base_sensor import AskeyBaseSensor, AskeyBaseSensorDiagnostic
 from homeassistant.const import UnitOfInformation
 
@@ -12,24 +16,19 @@ class AskeyTxBytesSensor(AskeyBaseSensor):
         super().__init__(
             coordinator,
             "Current Upload",
-            "askey_tx",
+            "askey_upload",
             "mdi:upload",
-            "tx_bytes",
+            "upload",
             UnitOfInformation.GIBIBYTES,
         )
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                raw = self.coordinator.data.get("cellular_stats", {}).get("tx_bytes")
-                if raw is None:
-                    return 0
-                mib = int(raw) / 1_048_576
-                return round(mib / 1024, 2)
-            return 0
-        except (TypeError, ValueError):
-            return 0
+        return safe_get_property(
+            self.coordinator.data,
+            ["cellular_stats", "tx_bytes"],
+            bytes_to_gib,
+        )
 
     @property
     def extra_state_attributes(self):
@@ -41,37 +40,32 @@ class AskeyTxBytesSensor(AskeyBaseSensor):
 
 class AskeyRxBytesSensor(AskeyBaseSensor):
     """
-    Tracks the amount of data received (RX) since the last restart.
-    Data is received in bytes and converted to MiB.
+    Tracks the amount of data received since the last restart.
+    Data is received in bytes and converted to GiB.
     """
 
     def __init__(self, coordinator):
         super().__init__(
             coordinator,
             "Current Download",
-            "askey_rx",
+            "askey_download",
             "mdi:download",
-            "rx_bytes",
+            "download",
             UnitOfInformation.GIBIBYTES,
         )
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                raw = self.coordinator.data.get("cellular_stats", {}).get("rx_bytes")
-                if raw is None:
-                    return 0
-                mib = int(raw) / 1_048_576
-                return round(mib / 1024, 2)
-            return 0
-        except (TypeError, ValueError):
-            return 0
+        return safe_get_property(
+            self.coordinator.data,
+            ["cellular_stats", "rx_bytes"],
+            bytes_to_gib,
+        )
 
     @property
     def extra_state_attributes(self):
         return {
-            "Description": "Tracks the amount of data received (RX) since the last restart.",
+            "Description": "Tracks the amount of data received since the last restart.",
             "Unit": "GiB",
         }
 
@@ -93,15 +87,9 @@ class AskeyTxDroppedSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                value = self.coordinator.data.get("cellular_stats", {}).get(
-                    "tx_dropped"
-                )
-                return int(value) if value is not None and value.isdigit() else 0
-            return 0
-        except (TypeError, ValueError):
-            return 0
+        return safe_get_property(
+            self.coordinator.data, ["cellular_stats", "tx_dropped"], int
+        )
 
     @property
     def extra_state_attributes(self):
@@ -127,15 +115,9 @@ class AskeyRxDroppedSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                value = self.coordinator.data.get("cellular_stats", {}).get(
-                    "rx_dropped"
-                )
-                return int(value) if value is not None and value.isdigit() else 0
-            return 0
-        except (TypeError, ValueError):
-            return 0
+        return safe_get_property(
+            self.coordinator.data, ["cellular_stats", "rx_dropped"], int
+        )
 
     @property
     def extra_state_attributes(self):
@@ -161,14 +143,9 @@ class AskeyTxErrorSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                return int(
-                    self.coordinator.data.get("cellular_stats", {}).get("tx_error")
-                )
-            return None
-        except (TypeError, ValueError):
-            return None
+        return safe_get_property(
+            self.coordinator.data, ["cellular_stats", "tx_error"], int
+        )
 
     @property
     def extra_state_attributes(self):
@@ -194,13 +171,9 @@ class AskeyRxErrorSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                value = self.coordinator.data.get("cellular_stats", {}).get("rx_error")
-                return int(value) if value is not None and value.isdigit() else 0
-            return 0
-        except (TypeError, ValueError):
-            return 0
+        return safe_get_property(
+            self.coordinator.data, ["cellular_stats", "rx_error"], int
+        )
 
     @property
     def extra_state_attributes(self):
@@ -226,15 +199,9 @@ class AskeyTxPacketsSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                value = self.coordinator.data.get("cellular_stats", {}).get(
-                    "tx_packets"
-                )
-                return int(value) if value is not None and value.isdigit() else 0
-            return 0
-        except (TypeError, ValueError):
-            return 0
+        return safe_get_property(
+            self.coordinator.data, ["cellular_stats", "tx_packets"], int
+        )
 
     @property
     def extra_state_attributes(self):
@@ -260,15 +227,9 @@ class AskeyRxPacketsSensor(AskeyBaseSensorDiagnostic):
 
     @property
     def native_value(self):
-        try:
-            if self.coordinator.data:
-                value = self.coordinator.data.get("cellular_stats", {}).get(
-                    "rx_packets"
-                )
-                return int(value) if value is not None and value.isdigit() else 0
-            return 0
-        except (TypeError, ValueError):
-            return 0
+        return safe_get_property(
+            self.coordinator.data, ["cellular_stats", "rx_packets"], int
+        )
 
     @property
     def extra_state_attributes(self):

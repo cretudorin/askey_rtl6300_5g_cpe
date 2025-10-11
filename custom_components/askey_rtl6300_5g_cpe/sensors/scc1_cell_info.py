@@ -1,5 +1,10 @@
 from .base_sensor import AskeyBaseSensorDiagnostic
 
+"""
+SCC1 is not always present and the router has changes the json respose structure in that case.
+not worth using safe_get_property
+"""
+
 
 class AskeyScc1PciSensor(AskeyBaseSensorDiagnostic):
     """

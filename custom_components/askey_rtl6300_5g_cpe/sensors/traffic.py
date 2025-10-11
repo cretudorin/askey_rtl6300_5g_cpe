@@ -1,3 +1,4 @@
+from custom_components.askey_rtl6300_5g_cpe.utils import safe_get_property
 from homeassistant.const import UnitOfInformation
 from .base_sensor import AskeyBaseSensor
 
@@ -19,11 +20,11 @@ class AskeyMonthlyRxSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        try:
-            rx_str = self.coordinator.data["traffic_monthly"]["rx"]
-            return float(rx_str.replace("GB", ""))
-        except (KeyError, TypeError, ValueError, AttributeError):
-            return None
+        return safe_get_property(
+            self.coordinator.data,
+            ["traffic_monthly", "rx"],
+            lambda raw: float(raw.replace("GB", "")),
+        )
 
     @property
     def extra_state_attributes(self):
@@ -50,11 +51,11 @@ class AskeyMonthlyTxSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        try:
-            tx_str = self.coordinator.data["traffic_monthly"]["tx"]
-            return float(tx_str.replace("GB", ""))
-        except (KeyError, TypeError, ValueError, AttributeError):
-            return None
+        return safe_get_property(
+            self.coordinator.data,
+            ["traffic_monthly", "tx"],
+            lambda raw: float(raw.replace("GB", "")),
+        )
 
     @property
     def extra_state_attributes(self):
@@ -81,11 +82,11 @@ class AskeyMonthlyTotalSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        try:
-            total_str = self.coordinator.data["traffic_monthly"]["total"]
-            return float(total_str.replace("GB", ""))
-        except (KeyError, TypeError, ValueError, AttributeError):
-            return None
+        return safe_get_property(
+            self.coordinator.data,
+            ["traffic_monthly", "total"],
+            lambda raw: float(raw.replace("GB", "")),
+        )
 
     @property
     def extra_state_attributes(self):
@@ -111,10 +112,9 @@ class AskeyMonthlyUpdatedDatetimeSensor(AskeyBaseSensor):
 
     @property
     def native_value(self):
-        try:
-            return self.coordinator.data["traffic_monthly"]["updated_datetime"]
-        except (KeyError, TypeError):
-            return None
+        return safe_get_property(
+            self.coordinator.data, ["traffic_monthly", "updated_datetime"]
+        )
 
     @property
     def extra_state_attributes(self):
