@@ -161,7 +161,9 @@ class AskeyPccCqiSensor(AskeyBaseSensorDiagnostic):
     """
 
     def __init__(self, coordinator):
-        super().__init__(coordinator, "PCC CQI", "askey_pcc_cqi", "mdi:signal", "cqi")
+        super().__init__(
+            coordinator, "PCC CQI", "askey_pcc_cqi", "mdi:signal", "cqi", ""
+        )
 
     @property
     def native_value(self):
