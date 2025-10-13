@@ -8,8 +8,8 @@ from homeassistant.const import UnitOfInformation
 
 class AskeyTxBytesSensor(AskeyBaseSensor):
     """
-    Tracks the amount of data transmitted (TX) since the last restart.
-    Data is received in bytes and converted to GiB.
+    Tracks the amount of data sent in last 24 hours(ish).
+    Data is sent in bytes and converted to GiB.
     """
 
     def __init__(self, coordinator):
@@ -33,14 +33,14 @@ class AskeyTxBytesSensor(AskeyBaseSensor):
     @property
     def extra_state_attributes(self):
         return {
-            "Description": "Tracks the amount of data transmitted (TX) since the last restart.",
+            "Description": "Tracks the amount of data transmitted in the current session, resets everyday",
             "Unit": "GiB",
         }
 
 
 class AskeyRxBytesSensor(AskeyBaseSensor):
     """
-    Tracks the amount of data received since the last restart.
+    Tracks the amount of data received in last 24 hours(ish).
     Data is received in bytes and converted to GiB.
     """
 
@@ -65,7 +65,7 @@ class AskeyRxBytesSensor(AskeyBaseSensor):
     @property
     def extra_state_attributes(self):
         return {
-            "Description": "Tracks the amount of data received since the last restart.",
+            "Description": "Tracks the amount of data received in the current session, resets everyday",
             "Unit": "GiB",
         }
 
