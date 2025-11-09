@@ -1,5 +1,18 @@
 import logging
 
+from custom_components.askey_rtl6300_5g_cpe.sensors.signal_info import (
+    Askey5gRsrpSensor,
+    Askey5gRsrqSensor,
+    Askey5gSinrSensor,
+    Askey5gPciSensor,
+    Askey5gBandSensor,
+    Askey5gBandwidthSensor,
+    Askey5gTxPowerSensor,
+    Askey5gRxChannelSensor,
+    Askey5gTxChannelSensor,
+    Askey5gRxFrequencySensor,
+    Askey5gTxFrequencySensor,
+)
 from custom_components.askey_rtl6300_5g_cpe.sensors.cellular_info import (
     AskeyPccTypeSensor,
     AskeyPccGciSensor,
@@ -9,6 +22,11 @@ from custom_components.askey_rtl6300_5g_cpe.sensors.cellular_info import (
     AskeyPccEnbSensor,
     AskeyPccCqiSensor,
     AskeyPccCountSensor,
+)
+from custom_components.askey_rtl6300_5g_cpe.sensors.status_info import (
+    AskeyNetworkNameSensor,
+    AskeySignalLevelSensor,
+    AskeyRoamingSensor,
 )
 from custom_components.askey_rtl6300_5g_cpe.sensors.traffic import (
     AskeyMonthlyRxSensor,
@@ -156,6 +174,21 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             AskeyPccMncSensor(coordinator),
             AskeyPccTacSensor(coordinator),
             AskeyPccEnbSensor(coordinator),
+            AskeyNetworkNameSensor(coordinator),
+            AskeySignalLevelSensor(coordinator),
+            AskeyRoamingSensor(coordinator),
+            # 5G
+            Askey5gRsrpSensor(coordinator),
+            Askey5gRsrqSensor(coordinator),
+            Askey5gSinrSensor(coordinator),
+            Askey5gPciSensor(coordinator),
+            Askey5gBandSensor(coordinator),
+            Askey5gBandwidthSensor(coordinator),
+            Askey5gTxPowerSensor(coordinator),
+            Askey5gRxChannelSensor(coordinator),
+            Askey5gTxChannelSensor(coordinator),
+            Askey5gRxFrequencySensor(coordinator),
+            Askey5gTxFrequencySensor(coordinator),
             # no idea how this is calculated
             # AskeyPccServTimeSensor(coordinator),
             AskeyPccCqiSensor(coordinator),

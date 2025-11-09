@@ -81,7 +81,7 @@ class AskeyTxDroppedSensor(AskeyBaseSensorDiagnostic):
             coordinator,
             "TX Dropped",
             "askey_tx_dropped",
-            "mdi:packet",
+            "mdi:alert-circle",
             "tx_dropped",
         )
 
@@ -109,7 +109,7 @@ class AskeyRxDroppedSensor(AskeyBaseSensorDiagnostic):
             coordinator,
             "RX Dropped",
             "askey_rx_dropped",
-            "mdi:packet",
+            "mdi:alert-circle",
             "rx_dropped",
         )
 

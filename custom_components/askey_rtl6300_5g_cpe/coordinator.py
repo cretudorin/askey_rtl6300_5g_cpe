@@ -34,6 +34,8 @@ class AskeyDataUpdateCoordinator(DataUpdateCoordinator):
         try:
             result = {
                 "throughput": await self.get_throughput(),
+                "status_info": await self.get_status_info(),
+                "signal_info": await self.get_signal_info(),
                 "status_info_v4": await self.get_status_info_v4(),
                 "status_info_v6": await self.get_status_info_v6(),
                 "cellular_info_ex": await self.get_cellular_info_ex(),
@@ -65,7 +67,7 @@ class AskeyDataUpdateCoordinator(DataUpdateCoordinator):
     # {"Status":"ok","ModuleCommand":"/lte/cellular_info_ex","Result":{"data":[{"pci":"XXX","rssi":"-XX.XX","rsrp":"-XX.XX","rsrq":"-X.XX","sinr":"XX.X","band":"X","bandw":"XX.XXXXXX","rxch":"XXX","txch":"XXXXX","rxfreq":"XXXX.XX","txfreq":"XXXX.XX"},{"pci":"XXX","rssi":"-XX.XX","rsrp":"-XX.XX","rsrq":"-X.XX","sinr":"XX.X","band":"XX","bandw":"XX.XXXXXX","rxch":"XXXX","txch":"XXXXX","rxfreq":"XXX.X","txfreq":"XXX.X"}]}}
 
     # without SCC1
-    # {"Status":"ok","ModuleCommand":"/lte/cellular_info_ex","Result":{"pci":"446","rssi":"-53.400000","rsrp":"-83.600000","rsrq":"-9.000000","sinr":"13.6","band":"1","bandw":"20.000000","rxch":"300","txch":"18300","rxfreq":"2140.00","txfreq":"1950.00"}}
+    # {"Status":"ok","ModuleCommand":"/lte/cellular_info_ex","Result":{"pci":"XXX","rssi":"-53.400000","rsrp":"-83.600000","rsrq":"-9.000000","sinr":"13.6","band":"1","bandw":"20.000000","rxch":"300","txch":"18300","rxfreq":"2140.00","txfreq":"1950.00"}}
     async def get_cellular_info_ex(self):
         return await self.utils.get("/lte/cellular_info_ex")
 
@@ -88,6 +90,14 @@ class AskeyDataUpdateCoordinator(DataUpdateCoordinator):
     # {"Status":"ok","ModuleCommand":"/traffic/monthly","Result":{"rx":"55.34GB","tx":"18.56GB","total":"73.90GB","updated_datetime":"2025-10-09 20:09"}}
     async def get_traffic_monthly(self):
         return await self.utils.get("/traffic/monthly")
+
+    # { "Status": "ok", "ModuleCommand": "/lte/status_info", "Result": { "sim_status": "2", "signal_level": "4", "tech_status": "5G_NSA", "plmn_name": "ISP-NAME", "roam_status": "0", "network_name": "ISP-NAME" } }
+    async def get_status_info(self):
+        return await self.utils.get("/lte/status_info")
+
+    # {"Status":"ok","ModuleCommand":"/lte/signal_info","Result":{"lte_rssi":"-44","lte_rsrq":"-9","lte_rsrp":"-72","lte_sinr":"25.0","5g_rsrp":"-78","5g_rsrq":"-11","5g_sinr":"33.8","5g_pci":"XXX","5g_band":"3","5g_bandw":"20","lte_txpwr":"40","5g_txpwr":"N/A","5g_rxch":"372750","5g_txch":"353750","nr5g_rxfreq":"1863.75","nr5g_txfreq":"1768.75"}}
+    async def get_signal_info(self):
+        return await self.utils.get("/lte/signal_info")
 
     async def handle_restart(self):
         return await self.utils.put("/sysadm/reboot", {"option": "1"})
